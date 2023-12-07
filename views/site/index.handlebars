@@ -1,0 +1,61 @@
+<div class="container">
+   <div class="row">
+      {{#each datas}}
+      <div class="col">
+         <div class="card target">
+            <div class="title">
+               {{title}}
+            </div>
+            <div class="imageArea">
+               <img src="/img/{{filePath}}" alt="natural photo">
+            </div>
+            <div class="content">
+               {{content}}
+            </div>
+            <div class="author">
+               {{author}}
+            </div>
+
+            {{#if ../adminLink}}
+            <div class="btn-area">
+               <button type="button" id="{{_id}}" class="editModalOpen" title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+               </button>
+
+               <button type="button" id="{{_id}}" class="deleteButton" title="Delete">
+                  <i class="bi bi-trash-fill"></i>
+               </button>
+            </div>
+            {{/if}}
+
+
+         </div>
+      </div>
+      {{/each}}
+
+   </div>
+</div>
+
+
+
+<script>
+   const deleteButton = document.querySelectorAll('.deleteButton')
+
+   deleteButton.forEach((element) => {
+      element.addEventListener('click', () => {
+         const buttonId = element.id
+         fetch(`/content/${buttonId}`, { method: 'delete', body:buttonId})
+            .then((response) => response.json())
+            .then((res) => {
+               if(res.type){
+                  setTimeout(()=>{
+                     location.reload()
+                  }, 500)
+               }
+               else{
+                  console.log(res.message)
+               }
+            })
+      })
+   })
+</script>

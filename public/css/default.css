@@ -1,0 +1,27 @@
+*{
+   margin: 0px;
+   padding: 0px;
+   box-sizing: border-box;
+}
+html{
+   scroll-behavior: smooth;
+}
+html::-webkit-scrollbar{
+   width: 0px;
+}
+body{
+   width: 100%;
+   height: auto;
+   min-height: 100vh;
+   background-color: #dddddd;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+a{
+   color: white;
+   text-decoration: none;
+}
+ul{
+   list-style: none;
+}

@@ -1,0 +1,118 @@
+<div class="modal editModal">
+   <div class="modal-dialog">
+      <div class="modal-header">
+         <h3 class="modal-title">
+            Title
+         </h3>
+         <span class="modal-closeButton editModalClose">
+            &times;
+         </span>
+      </div>
+
+      <div class="modal-body">
+         <form enctype="multipart/form-data">
+         <input type="text" id="_id" name="_id" required="required" style="display: none;">
+            <div class="form-group">
+               <input type="text" id="title" name="title" required="required">
+               <span>Your Title *</span>
+            </div>
+
+            <div class="form-group">
+               <input type="file" id="file" name="file" required="required">
+               <a href="#" id="oldPicture" download>
+                  Önceki Resim
+               </a>
+               <span>Your Image *</span>
+            </div>
+
+            <div class="form-group">
+               <textarea id="content" name="content" required="required"></textarea>
+               <span>Your Content *</span>
+            </div>
+
+            <div class="form-group">
+               <input type="text" id="author" name="author" required="required">
+               <span>Author Name *</span>
+            </div>
+
+            <div class="message-group">
+               <div class="message" id="editMessage">
+               </div>
+            </div>
+
+            <div class="btn-group">
+               <button type="submit">
+                  Add Text
+               </button>
+            </div>
+         </form>
+      </div>
+
+      <div class="modal-footer">
+         <button type="button" class="editModalClose">Close</button>
+      </div>
+   </div>
+</div>
+
+
+
+<script>
+   const editModal = document.querySelectorAll('.editModal')
+   const editModalOpen = document.querySelectorAll('.editModalOpen')
+   const editModalClose = document.querySelectorAll('.editModalClose')
+   const editMessage = document.getElementById('editMessage')
+   const title = document.getElementById('title')
+   const file = document.getElementById('file')
+   const content = document.getElementById('content')
+   const author = document.getElementById('author')
+   const _idElement = document.getElementById('_id')
+   const oldPicture = document.getElementById('oldPicture')
+
+   editModalClose.forEach((closeButton) => {
+      closeButton.addEventListener('click', () => {
+         editModal.forEach((modal) => {
+            modal.classList.remove('active')
+         })
+      })
+   })
+
+   editModalOpen.forEach((openButton) => {
+      openButton.addEventListener('click', () => {
+         axios.get(`/content/${openButton.id}`)
+            .then((res) => {
+               _id.value = res.data.data._id
+               title.value = res.data.data.title
+               content.value = res.data.data.content
+               author.value = res.data.data.author
+               oldPicture.href = `/img/${res.data.data.filePath}`
+               editModal.forEach((edit) => {
+                  edit.classList.add('active')
+               })
+            })
+            .catch((err) => {
+               console.log(err)
+            })
+      })
+   })
+
+   editModal.forEach((modal) => {
+      modal.addEventListener('submit', (e) => {
+         e.preventDefault()
+         const formData = new FormData(e.target)
+
+         fetch('/content', { method: 'put', body: formData })
+            .then((response) => response.json())
+            .then((res) => {
+               console.log(res)
+               if (res.type) {
+                  setTimeout(() => {
+                     location.reload()
+                  }, 1000)
+               }
+               else {
+                  message.innerText = res.message
+               }
+            })
+      })
+   })
+</script>

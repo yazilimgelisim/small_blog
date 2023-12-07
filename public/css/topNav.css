@@ -1,0 +1,171 @@
+.topNav{
+   width: 100%;
+   height: 70px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: linear-gradient(90deg, #272829, #454545);
+   transition: all 0.5s;
+   transform: translateY(-30px);
+   opacity: 0px;
+   margin-bottom: 50px;
+}
+.topNav .area{
+   width: 100%;
+   max-width: 1366px;
+   height: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0px 20px;
+}
+.topNav .area .mark{
+   font-family: 'Italianno', cursive;
+   font-weight: 700;
+   letter-spacing: 2px;
+}
+.topNav .area .mark a{
+   color: rgb(255, 255, 255);
+   transition: all 0.5s;
+}
+.topNav .area .mark a:hover{
+   color: #ffc6ad;
+   filter: hue-rotate(100deg);
+}
+.topNav .area .searchEngine{
+   width: 60%;
+   height: 30px;
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-left: 100px;
+   margin-right: 10px;
+}
+.topNav .area .searchEngine span{
+   width: 30px;
+   height: 30px;
+   position: absolute;
+   right: 0;
+   background-color: #f18658;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   color: white;
+   transition: all 1s;
+   cursor: pointer;
+   opacity: 0;
+   transform: translateX(2px);
+}
+.topNav .area .searchEngine span:hover{
+   background-color: #962d00;
+}
+.topNav .area .searchEngine span i{
+   transition: all 0.5s;
+}
+.topNav .area .searchEngine span:hover i{
+   filter: drop-shadow(0px 0px 3px white) drop-shadow(0px 0px 5px white);
+}
+.topNav .area .searchEngine input{
+   width: 70%;
+   height: 100%;
+   border: 15px;
+   padding: 0px 0px 0px 10px;
+   border: none;
+   border-radius: 15px;
+   outline: none;
+   transition: all 0.5s;
+   font-size: .9rem;
+   font-family: 'Playpen Sans', cursive;
+}
+.topNav .area .searchEngine input:focus, .topNav .area .searchEngine input:valid{
+   width: 100%;
+}
+
+.topNav .area .searchEngine input:focus ~ span, .topNav .area .searchEngine input:valid ~ span{
+   opacity: 1;
+}
+
+.topNav .area .logBar{
+   display: flex;
+   gap: 10px;
+}
+.topNav .area .logBar .logIcon{
+   padding: 5px 7px;
+   font-size: 1.01rem;
+   font-family: 'Josefin Sans', sans-serif;
+   border-radius: 5px;
+   cursor: pointer;
+   font-weight: 700;
+   transition: all 0.5s;
+   background-color: rgba(0, 0, 0, 0.1);
+   color: white;
+   transition: all 0.5s;
+}
+.topNav .area .logBar .logIcon:hover{
+   color: lime;
+   filter: hue-rotate(100deg);
+}
+.topNav .area .logBar .logIcon:hover{
+   border-color: rgb(51, 51, 51);
+}
+.topNav .area .logBar .logIcon i{
+   font-size: 1.1rem;
+}
+.topNav .area .logBar .logIcon span{
+   margin: auto 0;
+}
+
+@media (max-width:1000px){
+   .topNav .area .searchEngine{
+      width: 60%;
+      margin-left: 50px;
+   }
+   .topNav .area .searchEngine input{
+      width: 80%;
+   }
+   .topNav .area .logBar .logIcon span{
+      display: none;
+   }
+   .topNav .area .logBar .logIcon{
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+}
+
+.topNav.active{
+   opacity: 1;
+   transform: translateY(0);
+}
+.topNav .area .logBar .logIcon{
+   transform: translateX(-10px);
+   opacity: 0;
+}
+
+.topNav.active .area .logBar .logIcon{
+   transform: translateX(0px);
+   opacity: 1;
+}
+.topNav.active .area .logBar .logIcon:nth-child(1){
+   transition-duration: 0.4s;
+}
+.topNav.active .area .logBar .logIcon:nth-child(2){
+   transition-duration: 0.8s;
+}
+.topNav.active .area .logBar .logIcon:nth-child(3){
+   transition-duration: 1.2s;
+}
+
+.topNav .area .searchEngine{
+   transform: translateX(-10px);
+   opacity: 0;
+   transition: all 0.5s;
+}
+.topNav.active .area .searchEngine{
+   transform: translateX(0px);
+   opacity: 1;
+}

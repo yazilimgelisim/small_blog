@@ -1,0 +1,15 @@
+{{>head}}
+{{>topNav}}
+{{{body}}}
+
+{{#if adminLink}}
+{{>AddModal}}
+{{>EditModal}}
+{{/if}}
+
+{{#unless adminLink}}
+{{>loginModal}}
+{{/unless}}
+
+{{>footer}}
+{{>foot}}

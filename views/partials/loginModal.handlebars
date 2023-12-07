@@ -1,0 +1,124 @@
+<div class="modal loginModal">
+   <div class="modal-dialog">
+      <div class="modal-header">
+         <h3 class="modal-title">
+            Title
+         </h3>
+         <span class="modal-closeButton closeLoginModal">
+            &times;
+         </span>
+      </div>
+
+      <div class="modal-body">
+         <form class="loginForm" enctype="multipart/form-data">
+            <div class="form-group">
+               <input type="text" name="gmail" required="required">
+               <span>Gmail *</span>
+            </div>
+
+
+            <div class="form-group">
+               <input type="text" name="password" required="required">
+               <span>Password *</span>
+            </div>
+
+            <div class="message-group">
+               <div class="message" id="message">
+               </div>
+            </div>
+
+            <div class="btn-group">
+               <button type="submit">
+                  Login
+               </button>
+            </div>
+         </form>
+      </div>
+
+      <div class="modal-footer">
+         <button type="button" class="closeLoginModal">Close</button>
+      </div>
+   </div>
+</div>
+
+
+
+<script>
+   const loginModal = document.querySelectorAll('.loginModal')
+   const openLoginModal = document.querySelectorAll('.openLoginModal')
+   const closeLoginModal = document.querySelectorAll('.closeLoginModal')
+   const message = document.getElementById('message')
+
+   openLoginModal.forEach((openButton) => {
+      openButton.addEventListener('click', () => {
+         loginModal.forEach((login) => {
+            login.classList.add('active')
+         })
+      })
+   })
+
+
+   closeLoginModal.forEach((closeButton) => {
+      closeButton.addEventListener('click', () => {
+         loginModal.forEach((login) => {
+            login.classList.remove('active')
+         })
+      })
+   })
+
+   const clearMessage = () => {
+      setTimeout(() => {
+         message.innerText = ''
+      }, 1000 * 7)
+   }
+
+
+   loginModal.forEach((login) => {
+      login.addEventListener('submit', (e) => {
+         e.preventDefault()
+         let gmailRGX = new RegExp(/@gmail.com/, 'g');
+         let { gmail, password } = e.target.elements
+         gmail = gmail.value; password = password.value;
+
+         if (typeof (gmail) !== 'string' || typeof (password) !== 'string') {
+            message.innerText = 'Girilen yazıların türü string olmalıdır'
+            clearMessage()
+         }
+         else {
+            if (gmail.length >= 80 || password.length >= 80) {
+               message.innerText = 'Pampa, gmail ve password niye o kadar uzun ki :)'
+               clearMessage()
+            }
+            else {
+               if (!gmailRGX.test(gmail)) {
+                  message.innerText = 'Gmail alanını kontrol ediniz.'
+                  clearMessage()
+               }
+               else {
+                  const formData = new FormData(e.target)
+                  fetch('/login', {
+                     method: 'POST',
+                     body: formData,
+                  }).then(res => {
+                     console.log(res)
+                     return res.json()
+                  })
+                     .then((res) => {
+                        message.innerHTML = `<div class="loadAnimation"></div>`
+                        console.log(res)
+                        if (res.type) {
+                           setTimeout(() => {
+                              location.reload()
+                           }, 1000 * 3)
+                        }
+                        else {
+                           clearMessage()
+                        }
+                     })
+               }
+            }
+         }
+      })
+   })
+
+</script>

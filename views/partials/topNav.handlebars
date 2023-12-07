@@ -1,0 +1,66 @@
+<div class="topNav target">
+   <div class="area">
+      <h1 class="mark">
+         <a href="/">YG</a>
+      </h1>
+
+      <div class="searchEngine">
+         <input id="search" type="text" placeholder="Data searching for clicked" required="required">
+         <span><i class="bi bi-search"></i></span>
+      </div>
+
+
+      <div class="logBar">
+         {{#unless adminLink}}
+         <div class="logIcon openLoginModal">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Log In</span>
+         </div>
+         {{/unless}}
+
+         {{#if adminLink}}
+         <div class="logIcon modalOpen">
+            <i class="bi bi-file-earmark-plus"></i>
+            <span>Add Text</span>
+         </div>
+
+         <div class="logIcon logOutButton">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Log Out</span>
+         </div>
+         {{/if}}
+      </div>
+   </div>
+</div>
+
+
+<script>
+   const logOutButton = document.querySelectorAll('.logOutButton')
+
+   logOutButton.forEach((logButton) => {
+      logButton.addEventListener('click', () => {
+         const datas = [
+            {
+               name: 'Muhammet'
+            },
+            {
+               name: 'Ahmet'
+            }
+         ]
+
+         axios.post('http://127.0.0.1:8000/logout')
+         .then((res)=>{
+            if(res.status === 200){
+               setTimeout(()=>{
+                  location.reload()
+               }, 1000)
+            }else{
+               console.log(res)
+            }
+         })
+         .catch((err)=>{
+            console.log(err)
+         })
+      })
+   })
+</script>
