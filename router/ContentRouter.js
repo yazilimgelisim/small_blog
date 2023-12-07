@@ -54,7 +54,9 @@ router.post('/', async (req, res) => {
                      extension = extension[1]
                      let fileName = `photo-${uniqueName}.${extension}`
 
-                     await file.mv(path.join(__dirname, '..', 'public', 'img', fileName))
+                     await file.mv(path.join(__dirname, '..', 'public', 'img', fileName), (err)=>{
+                        console.log(err)
+                     })
 
 
                      const DB = new Content({
