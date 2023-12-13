@@ -1,4 +1,5 @@
 <div class="container">
+
    <div class="row">
       {{#each datas}}
       <div class="col">
@@ -33,29 +34,47 @@
       </div>
       {{/each}}
 
+
    </div>
 </div>
 
 
 
+
 <script>
    const deleteButton = document.querySelectorAll('.deleteButton')
+   const chat = document.getElementById('chat')
 
    deleteButton.forEach((element) => {
       element.addEventListener('click', () => {
          const buttonId = element.id
-         fetch(`/content/${buttonId}`, { method: 'delete', body:buttonId})
+         fetch(`/content/${buttonId}`, { method: 'delete', body: buttonId })
             .then((response) => response.json())
             .then((res) => {
-               if(res.type){
-                  setTimeout(()=>{
+               if (res.type) {
+                  setTimeout(() => {
                      location.reload()
                   }, 500)
                }
-               else{
+               else {
                   console.log(res.message)
                }
             })
       })
+   })
+   let chatControl = true
+
+   chat.addEventListener('click', () => {
+      if (chatControl) {
+         fetch('/chat', {
+            method: 'get',
+         }).then((response) => response.json())
+            .then((data) => {
+               console.log(data)
+            })
+            .catch((err) => {
+               console.log(err)
+            })
+      }
    })
 </script>

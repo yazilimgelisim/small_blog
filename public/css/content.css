@@ -75,20 +75,20 @@
    height: 30px;
    border: none;
    outline: none;
-   background-color: rgb(255, 223, 95);
+   background: linear-gradient(70deg, lightblue, lightgreen);
    font-size: 1rem;
    border-radius: 5px;
    cursor: pointer;
    transition: all 0.5s;
 }
 .card .btn-area button:nth-child(2){
-   background-color: rgb(255, 151, 67);
+   background: linear-gradient(70deg, orange, rgb(255, 94, 94));
 }
 .card .btn-area button:hover{
-   background-color: rgb(255, 204, 0);
+   background: rgb(255, 204, 0);
 }
 .card .btn-area button:nth-child(2):hover{
-   background-color: rgb(255, 115, 0);
+   background: rgb(255, 115, 0);
 }
 .row .col .card{
    transition: all 0.5s;

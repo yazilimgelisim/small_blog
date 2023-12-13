@@ -31,6 +31,8 @@
                <span>Author Name *</span>
             </div>
 
+            <input type="hidden" name="token" id="token">
+
             <div class="message-group">
                <div class="message" id="message">
                </div>
@@ -57,6 +59,7 @@
    const modalOpen = document.querySelectorAll('.modalOpen')
    const modalClose = document.querySelectorAll('.modalClose')
    const message = document.getElementById('message')
+   const token = document.getElementById('token')
 
 
    modalClose.forEach((closeButton) => {
@@ -69,6 +72,14 @@
 
    modalOpen.forEach((openButton) => {
       openButton.addEventListener('click', () => {
+         fetch('/token', {method:'post'})
+         .then((response)=>response.json())
+         .then((data)=>{
+            token.value = data.message
+         })
+         .catch((err)=>{
+            console.log(err)
+         })
          console.log('çalışıyor pampa')
          addModal.forEach((modal) => {
             modal.classList.add('active')

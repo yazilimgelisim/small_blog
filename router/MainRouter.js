@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
          datas: datas.map(item => item.toJSON())
       })
    })
-
 })
 
 

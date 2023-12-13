@@ -40,46 +40,59 @@ router.post('/', async (req, res) => {
             return res.status(200).json({ message: 'Created a problem', type: false })
          }
          else {
-            const { title, content, author } = req.body
+            const { title, content, author, token } = req.body
             const { file } = req.files
 
-            if (typeof (title) !== 'string' || typeof (content) !== 'string' || typeof (author) !== 'string') {
-               return res.status(200).json({ message: 'Yazı içeriklerinin türü string olmalıdır', type: false })
+
+            if (!req.session.token || !token) {
+               return res.status(200).json({ message: 'token bulunamadı', type: false })
             }
             else {
-               if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/gif') {
-                  if (file.size <= (1024 * 1024 * 5)) {
-                     let uniqueName = `${Date.now()}${(Math.round(Math.random() * 1E8))}`
-                     let extension = file.mimetype.split('/')
-                     extension = extension[1]
-                     let fileName = `photo-${uniqueName}.${extension}`
-
-                     await file.mv(path.join(__dirname, '..', 'public', 'img', fileName), (err)=>{
-                        console.log(err)
-                     })
-
-
-                     const DB = new Content({
-                        title: title,
-                        filePath: fileName,
-                        content: content,
-                        author: author
-                     })
-                     DB.save()
-                        .then(() => {
-                           return res.status(200).json({ message: `İçerik başarılı bir şekilde oluşturuldu`, type: true })
-                        })
-                        .catch((err) => {
-                           console.log(err)
-                           return res.status(200).json({ message: `İçerik veri tabanına kayıt edilemedi`, type: false })
-                        })
-                  }
-                  else {
-                     return res.status(200).json({ message: `Dosyanın boyutu 5Mb'dan büyük olamaz`, type: false })
-                  }
+               if (token !== req.session.token) {
+                  return res.status(200).json({ message: 'token değerleri eşleşmedi', type: false })
                }
                else {
-                  return res.status(200).json({ message: 'Resmin türü resim türünde değildir.', type: false })
+                  if (typeof (title) !== 'string' || typeof (content) !== 'string' || typeof (author) !== 'string') {
+                     return res.status(200).json({ message: 'Yazı içeriklerinin türü string olmalıdır', type: false })
+                  }
+                  else {
+                     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/gif') {
+                        if (file.size <= (1024 * 1024 * 5)) {
+                           let uniqueName = `${Date.now()}${(Math.round(Math.random() * 1E8))}`
+                           let extension = file.mimetype.split('/')
+                           extension = extension[1]
+                           let fileName = `photo-${uniqueName}.${extension}`
+
+                           await file.mv(path.join(__dirname, '..', 'public', 'img', fileName), (err) => {
+                              console.log(err)
+                           })
+                           const DB = new Content({
+                              title: title,
+                              filePath: fileName,
+                              content: content,
+                              author: author
+                           })
+                           DB.save()
+                              .then(async() => {
+                                 if(req.session.token){
+                                    console.log('token var silmek gerek')
+                                    delete  req.session.token
+                                 }
+                                 return res.status(200).json({ message: `İçerik başarılı bir şekilde oluşturuldu`, type: true })
+                              })
+                              .catch((err) => {
+                                 console.log(err)
+                                 return res.status(200).json({ message: `İçerik veri tabanına kayıt edilemedi`, type: false })
+                              })
+                        }
+                        else {
+                           return res.status(200).json({ message: `Dosyanın boyutu 5Mb'dan büyük olamaz`, type: false })
+                        }
+                     }
+                     else {
+                        return res.status(200).json({ message: 'Resmin türü resim türünde değildir.', type: false })
+                     }
+                  }
                }
             }
          }
@@ -201,6 +214,7 @@ router.put('/', async (req, res) => {
 })
 
 
+
 // Delete Process 
 router.delete('/:id', async (req, res) => {
    try {
@@ -224,16 +238,16 @@ router.delete('/:id', async (req, res) => {
                }
                else {
                   const filePath = await data.filePath;
-                  fs.unlink(path.join(__dirname, '..', 'public', 'img', filePath), (err)=>{
+                  fs.unlink(path.join(__dirname, '..', 'public', 'img', filePath), (err) => {
                      console.log(err)
                   })
-                  await Content.findByIdAndDelete(id).then(()=>{
-                     res.status(200).json(({ message:'İçerik başarılı bir şekilde silindi', type: true }))
+                  await Content.findByIdAndDelete(id).then(() => {
+                     res.status(200).json(({ message: 'İçerik başarılı bir şekilde silindi', type: true }))
                   })
-                  .catch((err)=>{
-                     console.log(err)
-                     res.status(400).json(({ message: 'Silme işlemi başarız oldu', type: false }))
-                  })
+                     .catch((err) => {
+                        console.log(err)
+                        res.status(400).json(({ message: 'Silme işlemi başarız oldu', type: false }))
+                     })
                }
             }
          }
