@@ -30,3 +30,18 @@
 
 ## Song 
 - [🚬🚬🚬](https://www.youtube.com/watch?v=7-_qRtGbCTE)
+
+
+# New News 
+### Result:  
+- I was able to pinpoint exactly what the real reason was for the files being deleted. The reason is fully explained in the free web services structure in the [docs](https://render.com/docs/free#free-web-services). In short, the reason is that if there is no request 15 minutes after the free services become operational, then their task is terminated. In other words, they do not wait in constant operation.
+- Of course, to overcome this situation, requests can be made at certain intervals with the setInterval() loop from a frontend application. Or, instead of following a fraudulent method, the solution is to pay a certain amount of money and make it a permanent application.
+Of course, to overcome this situation, requests can be made at certain intervals with the setInterval() loop from a frontend application. Or, instead of following a fraudulent method, the solution is to pay a certain amount of money and make it a permanent application.
+
+### Cevap: 
+- Silinen dosyaların asıl sebebinin tam olarak ne olduğunu tespit edebildim. Bunun nedeni [dokümanlardaki](https://render.com/docs/free#free-web-services) ücretsiz web servisleri yapısında tam olarak açıklanmaktadır. Kısaca nedeni, ücretsiz servisler devreye girdikten 15 dakika sonra herhangi bir talepte bulunulmaması durumunda görevlerine son verilmesidir. Yani sürekli çalışma halinde beklemezler.
+- Elbette bu durumu aşmak için bir frontend uygulamasından setInterval() döngüsü ile belirli aralıklarla isteklerde bulunulabilir. Veya dolandırıcılık yöntemi izlemek yerine belli bir miktar para ödeyip kalıcı bir uygulama haline getirmek çözümdür.
+
+
+
+
